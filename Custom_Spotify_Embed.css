@@ -1,0 +1,272 @@
+:root {
+  --spotifyembed-gap-main: 1rem;
+  
+  /* NEW: Increased top spacing to push content down */
+  --spotifyembed-padding-main-top: 3rem; 
+  --spotifyembed-padding-main-horizontal: 1.5rem;
+  --spotifyembed-padding-main-bottom: 1.5rem;
+  --spotifyembed-button-placement-offset: 0.5rem; 
+  
+  --spotifyembed-cover-size: 120px; /* Actual size of the cover image - INCREASED from 100px to 120px */
+  --spotifyembed-cover-radius: 6px; /* Soft square corners */
+  
+  --spotifyembed-content-gap: 0.5rem;
+  
+  /* Colors for the minimalist design */
+  --spotifyembed-dark-text: #111;
+  --spotifyembed-light-text: #eee;
+
+  --spotifyembed-title-font-size: 1.1rem;
+  --spotifyembed-title-line-height: 1.25em;
+  /* Original color retained but overridden by gradient below */
+  --spotifyembed-title-color: var(--spotifyembed-dark-text); 
+  --spotifyembed-title-max-lines: 3;
+  --spotifyembed-title-max-height: 5em;
+
+  /* Background variables */
+  --spotifyembed-main-radius: 40px; /* Pill shape */
+  --spotifyembed-album-color-area: 40%; /* How much of the TOP side is colored */
+  --spotifyembed-light-bg: #f8f8f8; /* Crisp white/light background color */
+
+  /* Translucent Panel Styles for Content Wrapper - VALUES RETAINED BUT NOT APPLIED TO WRAPPER */
+  --spotifyembed-panel-bg: rgba(255, 255, 255, 0.2);
+  --spotifyembed-panel-blur: blur(8px);
+  --spotifyembed-panel-radius: 12px;
+  --spotifyembed-panel-padding: 1rem 1.5rem;
+
+  --spotifyembed-info-background: rgba(255, 255, 255, 0.7);
+  --spotifyembed-info-blur: blur(5px);
+  --spotifyembed-info-radius: 8px;
+  --spotifyembed-info-padding: 0.5rem 0.75rem;
+  /* Original color retained but overridden by gradient below */
+  --spotifyembed-info-color: var(--spotifyembed-dark-text);
+  --spotifyembed-info-font-size: 0.85rem;
+  --spotifyembed-info-font-weight: 500;
+  
+  --spotifyembed-button-radius: 10px; /* Clean, modern button */
+  --spotifyembed-button-padding: 0.4rem 0.5rem; 
+  --spotifyembed-button-font-weight: 600;
+  --spotifyembed-button-color: #fff;
+  --spotifyembed-button-background: #1DB954; /* Spotify Green for clear action */
+
+  --spotifyembed-header-background: rgba(0, 0, 0, 0.1);
+  --spotifyembed-header-font-size: 0.9rem;
+  --spotifyembed-header-font-weight: 600;
+  --spotifyembed-header-padding: 0.35rem 0.75rem;
+
+  /* Minimalist Shadows */
+  --spotifyembed-shadow-soft: 0 4px 10px rgba(0, 0, 0, 0.08);
+  --spotifyembed-text-shadow-strong: none; 
+}
+
+/* Main container - Pill Shape, Two-Tone Minimalist */
+div[class*="embed__"] > div {
+  position: relative;
+  display: flex;
+  flex-direction: column; 
+  gap: var(--spotifyembed-gap-main);
+  
+  /* Set explicit padding for top/bottom/sides */
+  padding: var(--spotifyembed-padding-main-top) var(--spotifyembed-padding-main-horizontal) var(--spotifyembed-padding-main-bottom) var(--spotifyembed-padding-main-horizontal);
+  
+  /* Define a slightly taller minimum height for better portrait look */
+  min-height: 280px; 
+  width: 170px; /* Constrain width to ensure portrait look */
+  
+  /* Pill Shape */
+  border-radius: var(--spotifyembed-main-radius);
+  
+  /* REMOVED: Animation setup */
+  background-size: auto; 
+  animation: none; 
+  
+  /* Vertical Gradient (Dark/Album Color Top -> White/Light Bottom) - STATIC VERSION */
+  background-image: linear-gradient(to bottom, 
+    rgba(0, 0, 0, 0.15) 0%, 
+    rgba(0, 0, 0, 0.05) var(--spotifyembed-album-color-area), 
+    var(--spotifyembed-light-bg) calc(var(--spotifyembed-album-color-area) + 10%),
+    #ffffff 100%
+  );
+  
+  backdrop-filter: none;
+  border: none;
+  box-shadow: var(--spotifyembed-shadow-soft);
+  overflow: hidden; 
+  
+  /* Center the content block horizontally */
+  align-items: center;
+}
+
+/* Header - Anchored to the top left corner, styled for the dark section */
+div[class*="embed__"] [data-text-variant="text-sm/semibold"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: var(--spotifyembed-header-font-size);
+  font-weight: var(--spotifyembed-header-font-weight);
+  
+  background: var(--spotifyembed-header-background);
+  backdrop-filter: none;
+  border: none;
+  
+  padding: var(--spotifyembed-header-padding);
+  /* Rounded to match the pill shape on the top-left */
+  border-radius: var(--spotifyembed-main-radius) 0 12px 0; 
+  color: var(--spotifyembed-light-text); 
+  text-shadow: none;
+  box-shadow: none;
+  user-select: none;
+  pointer-events: none;
+  z-index: 1100;
+}
+
+
+/* Content wrapper (now acts as the main vertical stack holder) */
+div[class*="embed__"] > div > div[class*="contentContainer__"] {
+    width: 100%; 
+    z-index: 3;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    gap: var(--spotifyembed-gap-main);
+    padding: 0; 
+}
+
+/* Image container - Centered and stacked at the top */
+div[class*="embed__"] [style*="background-image"] {
+  width: var(--spotifyembed-cover-size);
+  height: var(--spotifyembed-cover-size);
+  border-radius: var(--spotifyembed-cover-radius);
+  background-size: cover;
+  background-position: center;
+  
+  /* Minimalist definition */
+  border: none; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  /* Ensure image is centered */
+  margin: 0 auto;
+}
+
+/* Inner Text/Info Wrapper - Panel removed, now flows directly on background */
+div[class*="embed__"] > div > div[class*="contentContainer__"] > div[class*="contentWrapper__"] {
+  flex: 1 1 auto; 
+  
+  /* Centered Content */
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+
+  /* Removed panel background/blur */
+  background: none; 
+  backdrop-filter: none;
+  border-radius: 0;
+  /* Minimal vertical padding only, relying on outer horizontal padding */
+  padding: 0.5rem 0; 
+  
+  /* Ensure it expands horizontally */
+  width: 100%;
+  max-width: 600px; 
+
+  /* Existing styles cleaned up/removed */
+  gap: var(--spotifyembed-content-gap);
+  user-select: text;
+  cursor: pointer;
+  margin-top: 0;
+  flex-basis: auto; 
+  padding-top: 0; 
+}
+
+/* Content title (Dark text for the light background) */
+div[class*="embed__"] [data-text-variant="text-md/semibold"] {
+  /* Center the text */
+  text-align: center; 
+  
+  /* UPDATED TEXT GRADIENT: Darker, more saturated for better contrast */
+  background-image: linear-gradient(to right, #C6156B, #15A6C6); 
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent !important; /* Force transparent color to show gradient */
+  /* NEW: Add a subtle white shadow for contrast */
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+
+  /* === FIX FOR LONG SONG NAMES === */
+  white-space: normal !important; /* Allow the text to wrap to the next line */
+  overflow: hidden; /* Hide anything that still might overflow vertically */
+  display: -webkit-box; /* Necessary for line clamping */
+  -webkit-line-clamp: 3; /* Limit to a maximum of 3 lines */
+  -webkit-box-orient: vertical; /* Necessary for line clamping */
+  /* =============================== */
+}
+
+/* Content info wrapper - Inline within the new centered panel */
+div[class*="embed__"] div[class*="contentInfoWrapper__"] {
+  /* Center the contents of the info wrapper (like timestamp/party status) */
+  align-items: center;
+}
+
+/* Apply gradient to all text within the content wrapper, including info and artist/album text */
+div[class*="embed__"] div[class*="contentWrapper__"] span,
+div[class*="embed__"] div[class*="contentInfoWrapper__"] * {
+    /* UPDATED TEXT GRADIENT to all descendants (info text) */
+    background-image: linear-gradient(to right, #E06BA0, #60C6E0); /* Slightly lighter version for secondary text */
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent !important; /* Force transparent color to show gradient */
+    font-weight: 500; 
+    /* NEW: Add a subtle white shadow for contrast */
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+
+    /* Ensure secondary text wraps as well if needed */
+    white-space: normal !important; 
+    text-align: center; 
+}
+
+
+/* Action wrapper - Restored to the normal flow, positioned below the text panel */
+div[class*="embed__"] div[class*="actionWrapper__"] {
+  position: relative; /* Revert from absolute to restore flow */
+  /* Align with image/content block */
+  left: unset; 
+  top: unset; 
+  
+  /* Constrain width to be slightly wider than album cover for prominence */
+  width: 100%; 
+  max-width: 120px; /* Small constraint for minimalist look */
+  margin-top: var(--spotifyembed-gap-main); /* Space below text panel */
+  
+  /* Reset absolute/flow properties */
+  bottom: unset;
+  right: unset;
+  user-select: none;
+  z-index: 1000;
+  display: flex;
+  justify-content: center; /* Center the button within its new wrapper */
+  transform: none;
+  padding-top: 0;
+}
+
+/* Buttons - Clean Spotify Green Button */
+div[class*="embed__"] button[class*="button_"] {
+  width: 100%; /* Make button fill the new actionWrapper */
+  max-width: none;
+  border-radius: var(--spotifyembed-button-radius);
+  padding: var(--spotifyembed-button-padding);
+  font-weight: var(--spotifyembed-button-font-weight);
+  
+  /* Solid Spotify Green */
+  background: var(--spotifyembed-button-background);
+  box-shadow: 0 3px 6px rgba(29, 185, 84, 0.4); 
+  text-shadow: none;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+div[class*="embed__"] button[class*="button_"]:hover:not(:disabled) {
+  background: #1ed760; 
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(29, 185, 84, 0.6);
+}
+
+div[class*="embed__"] button[class*="button_"]:disabled {
+  opacity: 0.5;
+}
